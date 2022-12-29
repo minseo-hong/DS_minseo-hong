@@ -105,11 +105,13 @@ LinkedList* create(void) {
 }
 
 void addTail(LinkedList *list, element value) {
-    ListNode *lastNode = list->head;
+    ListNode *node = list->head;
     
-    while (lastNode->link != NULL) {
-        lastNode = lastNode->link;
+    while (node->link != NULL) {
+        node = node->link;
     }
+    
+    ListNode *lastNode = node;
     
     ListNode *newNode = (ListNode *)malloc(sizeof(newNode));
     
@@ -126,11 +128,13 @@ void deleteData(LinkedList *list) {
         return ;
     }
     
-    ListNode *prevNode = list->head;
+    ListNode *node = list->head;
     
-    while (prevNode->link != list->selected) {
-        prevNode = prevNode->link;
+    while (node->link != list->selected) {
+        node = node->link;
     }
+    
+    ListNode *prevNode = node;
     
     if (list->selected->link == NULL) {
         prevNode->link = NULL;
@@ -149,11 +153,13 @@ void deleteData(LinkedList *list) {
 }
 
 void printList(LinkedList *list) {
-    ListNode *lastNode = list->head;
+    ListNode *node = list->head;
     
-    while (lastNode->link != NULL) {
-        lastNode = lastNode->link;
+    while (node->link != NULL) {
+        node = node->link;
     }
+    
+    ListNode *lastNode = node;
     
     ListNode *curNode = list->head->link;
     
