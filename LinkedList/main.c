@@ -1,9 +1,7 @@
 #include "header.h"
 
 int main(void) {
-    LinkedList *list = NULL;
-    
-    list = create(list);
+    LinkedList *list = create();
     
     while (TRUE) {
         char command[COMMAND_MAX_SIZE];
@@ -97,13 +95,13 @@ int main(void) {
     return 0;
 }
 
-LinkedList* create(LinkedList *list) {
-    list = (LinkedList *)malloc(sizeof(LinkedList));
+LinkedList* create(void) {
+    LinkedList *newList = (LinkedList *)malloc(sizeof(LinkedList));
     
-    list->head = (ListNode *)malloc(sizeof(ListNode));
-    list->selected = list->head;
+    newList->head = (ListNode *)malloc(sizeof(ListNode));
+    newList->selected = newList->head;
     
-    return list;
+    return newList;
 }
 
 void addTail(LinkedList *list, element value) {
@@ -215,9 +213,9 @@ int isMember(LinkedList *list, element value) {
 LinkedList* clearList(LinkedList *list) {
     deleteList(list);
     
-    list = create(list);
+    LinkedList *newList = create();
     
-    return list;
+    return newList;
 }
 
 int isEmpty(LinkedList *list) {
