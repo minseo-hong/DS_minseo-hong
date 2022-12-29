@@ -5,9 +5,7 @@ int main(void) {
     
     list = create(list);
     
-    int iterFlag = TRUE;
-    
-    while (iterFlag) {
+    while (TRUE) {
         char command[COMMAND_MAX_SIZE];
         
         printf(">> ");
@@ -17,7 +15,9 @@ int main(void) {
         getchar();
         
         if (strcmp(command, END_COMMAND) == STRCMP_EQUAL) {
-            iterFlag = FALSE;
+            printf("END\n");
+            
+            break;
         }
         
         int printFlag = FALSE;
