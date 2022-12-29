@@ -35,9 +35,7 @@ int main(void) {
                     
                     break;
                 case DELETE_COMMAND:
-                    if (isEmpty(list) == FALSE) {
-                        deleteData(list);
-                    }
+                    deleteData(list);
                     
                     printFlag = TRUE;
                     
@@ -126,6 +124,10 @@ void addTail(LinkedList *list, element value) {
 }
 
 void deleteData(LinkedList *list) {
+    if (isEmpty(list)) {
+        return ;
+    }
+    
     ListNode *prevNode = list->head;
     
     while (prevNode->link != list->selected) {
