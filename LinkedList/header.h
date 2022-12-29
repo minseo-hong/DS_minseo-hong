@@ -36,7 +36,7 @@ typedef struct LinkedList {
     ListNode *selected;
 } LinkedList;
 
-LinkedList* create(LinkedList *list);
+LinkedList* create(void);
 void addTail(LinkedList *list, element value);
 void deleteData(LinkedList *list);
 void printList(LinkedList *list);
