@@ -12,7 +12,7 @@ int main(void) {
         
         getchar();
         
-        if (strcmp(command, END_COMMAND) == STRCMP_EQUAL) {
+        if (!strcmp(command, "END")) {
             printf("END\n");
             
             break;
@@ -22,31 +22,31 @@ int main(void) {
         
         int index = 0;
         
-        while (command[index] != STR_NULL) {
+        while (command[index] != '\0') {
             switch (command[index]) {
-                case ADD_TAIL_COMMAND:
-                    index += 1;
+                case '+':
+                    index++;
                     
                     addTail(list, command[index]);
                     
                     printFlag = TRUE;
                     
                     break;
-                case DELETE_COMMAND:
+                case '-':
                     deleteData(list);
                     
-                    printFlag = TRUE;
+                    printList(list);
                     
                     break;
-                case PRINT_LIST_COMMAND:
-                    printFlag = TRUE;
+                case 'L':
+                    printList(list);
                     
                     break;
-                case DATA_COUNT_COMMAND:
+                case '#':
                     printf("%d\n", dataCount(list));
                     
                     break;
-                case GET_DATA_COMMAND:
+                case 'G':
                     printf("%c (", getData(list));
                     
                     printList(list);
@@ -54,23 +54,23 @@ int main(void) {
                     printf(")\n");
                     
                     break;
-                case IS_MEMBER_COMMAND:
-                    index += 1;
+                case '?':
+                    index++;
                     
-                    int elementIndex = isMember(list, command[index]);
+                    int elementOrder = isMember(list, command[index]);
                     
-                    printf("%d: ", elementIndex);
+                    printf("%d: ", elementOrder);
                     
-                    printFlag = TRUE;
+                    printList(list);
                     
                     break;
-                case CLEAR_LIST_COMMAND:
+                case 'C':
                     list = clearList(list);
                     
                     printf("CLEAR\n");
                     
                     break;
-                case IS_EMPTY_COMMAND:
+                case 'E':
                     if (isEmpty(list)) {
                         printf("TRUE\n");
                     } else {
@@ -80,7 +80,7 @@ int main(void) {
                     break;
             }
             
-            index += 1;
+            index++;
         }
         
         if (printFlag) {
@@ -165,20 +165,22 @@ void printList(LinkedList *list) {
     
     if (isEmpty(list)) {
         printf("EMPTY");
-    } else {
-        while (curNode != NULL) {
-            if (curNode == list->selected) {
-                printf(">%c<", curNode->data);
-            } else {
-                printf("%c", curNode->data);
-            }
-            
-            if (curNode != lastNode) {
-                printf(" ");
-            }
-            
-            curNode = curNode->link;
+        
+        return ;
+    }
+        
+    while (curNode != NULL) {
+        if (curNode == list->selected) {
+            printf(">%c<", curNode->data);
+        } else {
+            printf("%c", curNode->data);
         }
+        
+        if (curNode != lastNode) {
+            printf(" ");
+        }
+        
+        curNode = curNode->link;
     }
 }
 
