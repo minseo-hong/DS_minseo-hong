@@ -35,11 +35,11 @@ int main(void) {
                 case '-':
                     deleteData(list);
                     
-                    printList(list);
+                    printFlag = TRUE;
                     
                     break;
                 case 'L':
-                    printList(list);
+                    printFlag = TRUE;
                     
                     break;
                 case '#':
@@ -61,7 +61,7 @@ int main(void) {
                     
                     printf("%d: ", elementOrder);
                     
-                    printList(list);
+                    printFlag = TRUE;
                     
                     break;
                 case 'C':
