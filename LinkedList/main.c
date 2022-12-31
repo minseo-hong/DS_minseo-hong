@@ -19,6 +19,7 @@ int main(void) {
         }
         
         int printFlag = FALSE;
+        int bracketFlag = FALSE;
         
         int index = 0;
         
@@ -47,11 +48,10 @@ int main(void) {
                     
                     break;
                 case 'G':
-                    printf("%c (", getData(list));
+                    printf("%c ", getData(list));
                     
-                    printList(list);
-                    
-                    printf(")\n");
+                    printFlag = TRUE;
+                    bracketFlag = TRUE;
                     
                     break;
                 case '?':
@@ -83,10 +83,20 @@ int main(void) {
             index++;
         }
         
+        if (bracketFlag) {
+            printf("(");
+        }
+        
         if (printFlag) {
             printList(list);
             
-            printf("\n");
+            if (!bracketFlag) {
+                printf("\n");
+            }
+        }
+        
+        if (bracketFlag) {
+            printf(")\n");
         }
     }
     
