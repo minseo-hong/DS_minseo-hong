@@ -3,8 +3,12 @@
 int main(void) {
     Stack *stack = create();
     
+    char command[COMMAND_MAX_SIZE];
+    
     while (TRUE) {
-        char command[COMMAND_MAX_SIZE];
+        for (int i = 0; i < COMMAND_MAX_SIZE; i++) {
+            command[i] = '\0';
+        }
         
         printf(">> ");
         
@@ -21,8 +25,23 @@ int main(void) {
         int index = 0;
         
         while (command[index] != '\0') {
+            int mulNum = 1;
+            int popIter = 0;
+            
+            while (isdigit(command[index])) {
+                popIter += (command[index] - '0') * mulNum;
+                
+                mulNum *= 10;
+                
+                index++;
+            }
+            
             switch (command[index]) {
                 case '+':
+                    if (!isFull(stack)) {
+                        printFlag = TRUE;
+                    }
+                    
                     index++;
                     
                     push(stack, command[index]);
@@ -31,9 +50,23 @@ int main(void) {
                     
                     break;
                 case '-':
-                    pop(stack);
+                    if (!isEmpty(stack)) {
+                        printFlag = TRUE;
+                    }
                     
-                    printFlag = TRUE;
+                    if (popIter) {
+                        for (int n = 1; n <= popIter; n++) {
+                            pop(stack);
+                        }
+                        
+                        index++;
+                    } else {
+                        while (command[index] == '-') {
+                            pop(stack);
+                            
+                            index++;
+                        }
+                    }
                     
                     break;
                 case 'L':
@@ -87,7 +120,7 @@ int main(void) {
                     
                     break;
                 case 'C':
-                    stack = clearAll(stack);
+                    clearAll(stack);
                     
                     printFlag = TRUE;
                     
@@ -127,7 +160,7 @@ int isEmpty(Stack *stack) {
 
 void push(Stack *stack, element value) {
     if (isFull(stack)) {
-        printf("FULL\n");
+        printf("Error (no space to push)");
         
         return ;
     }
@@ -139,7 +172,7 @@ void push(Stack *stack, element value) {
 
 element pop(Stack *stack) {
     if (isEmpty(stack)) {
-        printf("EMPTY\n");
+        printf("Error (nothing to pop)");
         
         return '\0';
     }
@@ -153,9 +186,9 @@ element pop(Stack *stack) {
 
 element peek(Stack *stack) {
     if (isEmpty(stack)) {
-        printf("EMPTY\n");
+        printf("Error (nothing to peek)");
         
-        exit(1);
+        return '\0';
     }
     
     return stack->data[stack->top];
@@ -163,7 +196,7 @@ element peek(Stack *stack) {
 
 void printAll(Stack *stack) {
     if (isEmpty(stack)) {
-        printf("EMPTY");
+        printf("-");
         
         return ;
     }
@@ -190,7 +223,13 @@ void printAll(Stack *stack) {
 }
 
 void top(Stack *stack) {
-    printf("(%d, %c)", stack->top, peek(stack));
+    if (isEmpty(stack)) {
+        printf("Error (nothing to get with top)");
+        
+        return ;
+    }
+    
+    printf("(%d, %c)", stack->top + 1, peek(stack));
 }
 
 void replace(Stack *stack, element value) {
@@ -206,12 +245,10 @@ int elementCount(Stack *stack) {
     return stack->top + 1;
 }
 
-Stack* clearAll(Stack *stack) {
-    deleteAll(stack);
-    
-    Stack *newStack = create();
-    
-    return newStack;
+void clearAll(Stack *stack) {
+    while (stack->top > -1) {
+        pop(stack);
+    }
 }
 
 void deleteAll(Stack *stack) {
