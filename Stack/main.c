@@ -46,8 +46,6 @@ int main(void) {
                     
                     push(stack, command[index]);
                     
-                    printFlag = TRUE;
-                    
                     break;
                 case '-':
                     if (!isEmpty(stack)) {
