@@ -17,7 +17,21 @@ int main(void) {
         getchar();
         
         if (!strcmp(command, "END")) {
-            break;
+            printf("Are you sure to end this program? (Y/N) ");
+            
+            char endCommand;
+            
+            scanf("%c", &endCommand);
+            
+            getchar();
+            
+            if (endCommand == 'Y' || endCommand == 'y') {
+                printf("\n");
+                
+                break;
+            } else {
+                continue;
+            }
         }
         
         int printFlag = FALSE;
@@ -72,22 +86,22 @@ int main(void) {
                 
                     break;
                 case 'P':
-                    printf("%c", peek(stack));
+                    printf("%c\n", peek(stack));
                 
                     break;
                 case 'F':
                     if (isFull(stack)) {
-                        printf("TRUE");
+                        printf("TRUE\n");
                     } else {
-                        printf("FALSE");
+                        printf("FALSE\n");
                     }
                     
                     break;
                 case 'E':
                     if (isEmpty(stack)) {
-                        printf("TRUE");
+                        printf("TRUE\n");
                     } else {
-                        printf("FALSE");
+                        printf("FALSE\n");
                     }
                     
                     break;
@@ -96,16 +110,16 @@ int main(void) {
                     
                     break;
                 case '#':
-                    printf("%d", elementCount(stack));
+                    printf("%d\n", elementCount(stack));
                     
                     break;
                 case '?':
                     index++;
                     
                     if (isMemeber(stack, command[index])) {
-                        printf("TRUE");
+                        printf("TRUE\n");
                     } else {
-                        printf("FALSE");
+                        printf("FALSE\n");
                     }
                     
                     break;
@@ -131,8 +145,6 @@ int main(void) {
         if (printFlag) {
             printAll(stack);
         }
-        
-        printf("\n");
     }
     
     deleteAll(stack);
@@ -158,7 +170,7 @@ int isEmpty(Stack *stack) {
 
 void push(Stack *stack, element value) {
     if (isFull(stack)) {
-        printf("Error (no space to push)");
+        printf("Error (no space to push)\n");
         
         return ;
     }
@@ -170,7 +182,7 @@ void push(Stack *stack, element value) {
 
 element pop(Stack *stack) {
     if (isEmpty(stack)) {
-        printf("Error (nothing to pop)");
+        printf("Error (nothing to pop)\n");
         
         return '\0';
     }
@@ -184,7 +196,7 @@ element pop(Stack *stack) {
 
 element peek(Stack *stack) {
     if (isEmpty(stack)) {
-        printf("Error (nothing to peek)");
+        printf("Error (nothing to peek)\n");
         
         return '\0';
     }
@@ -194,7 +206,7 @@ element peek(Stack *stack) {
 
 void printAll(Stack *stack) {
     if (isEmpty(stack)) {
-        printf("-");
+        printf("-\n");
         
         return ;
     }
@@ -209,7 +221,7 @@ void printAll(Stack *stack) {
         element value = pop(tmpStack);
         
         if (tmpStack->top == -1) {
-            printf(">%c<", value);
+            printf(">%c<\n", value);
         } else {
             printf("%c ", value);
         }
@@ -222,12 +234,12 @@ void printAll(Stack *stack) {
 
 void top(Stack *stack) {
     if (isEmpty(stack)) {
-        printf("Error (nothing to get with top)");
+        printf("Error (nothing to get with top)\n");
         
         return ;
     }
     
-    printf("(%d, %c)", stack->top + 1, peek(stack));
+    printf("(%d, %c)\n", stack->top + 1, peek(stack));
 }
 
 void replace(Stack *stack, element value) {
