@@ -210,14 +210,14 @@ void printAll(Stack *stack) {
     
     Stack *tmpStack = create();
     
-    while (stack->top > -1) {
+    while (!isEmpty(stack)) {
         push(tmpStack, pop(stack));
     }
     
-    while (tmpStack->top > -1) {
+    while (!isEmpty(tmpStack)) {
         element value = pop(tmpStack);
         
-        if (tmpStack->top == -1) {
+        if (isEmpty(tmpStack)) {
             printf(">%c<\n", value);
         } else {
             printf("%c ", value);
@@ -249,7 +249,7 @@ int isMemeber(Stack *stack, element item) {
     
     Stack *tmpStack = create();
     
-    while (stack->top != -1) {
+    while (!isEmpty(stack)) {
         if (peek(stack) == item) {
             isMember = TRUE;
         }
@@ -257,7 +257,7 @@ int isMemeber(Stack *stack, element item) {
         push(tmpStack, pop(stack));
     }
     
-    while (tmpStack->top != -1) {
+    while (!isEmpty(tmpStack)) {
         push(stack, pop(tmpStack));
     }
     
@@ -269,7 +269,7 @@ int elementCount(Stack *stack) {
 }
 
 void clearAll(Stack *stack) {
-    while (stack->top > -1) {
+    while (!isEmpty(stack)) {
         pop(stack);
     }
 }
