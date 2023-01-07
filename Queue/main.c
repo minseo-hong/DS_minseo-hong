@@ -11,6 +11,8 @@ int main(void) {
     
     printf("Element Added\n");
     
+    printAll(queue);
+    
     printf("isEmpty? %d\n", isEmpty(queue));
     
     printf("peek %c\n", peek(queue));
@@ -73,6 +75,32 @@ element peek(Queue *queue) {
     }
     
     return queue->data[(queue->front + 1) % QUEUE_MAX_SIZE];
+}
+
+void printAll(Queue *queue) {
+    Queue *tmpQueue = create();
+    
+    if (isEmpty(queue)) {
+        printf("-\n");
+        
+        return ;
+    }
+    
+    while (!isEmpty(queue)) {
+        enqueue(tmpQueue, dequeue(queue));
+    }
+    
+    while (!isEmpty(tmpQueue)) {
+        element item = dequeue(tmpQueue);
+        
+        if (isEmpty(tmpQueue)) {
+            printf(">%c<\n", item);
+        } else {
+            printf("%c ", item);
+        }
+        
+        enqueue(queue, item);
+    }
 }
 
 void deleteAll(Queue *queue) {
