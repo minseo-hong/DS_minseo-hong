@@ -41,8 +41,8 @@ int main(void) {
         while (command[index] != '\0') {
             int popIter = 0;
             
-            if (isdigit(command[index])) {
-                popIter += command[index] - '0';
+            while (isdigit(command[index])) {
+                popIter = popIter * 10 + (command[index] - '0');
                 
                 index++;
             }
