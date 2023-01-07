@@ -24,4 +24,5 @@ void enqueue(Queue *queue, element item);
 element dequeue(Queue *queue);
 element peek(Queue *queue);
 void printAll(Queue *queue);
+int elementCount(Queue *queue);
 void deleteAll(Queue *queue);

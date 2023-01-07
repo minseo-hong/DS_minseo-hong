@@ -11,6 +11,8 @@ int main(void) {
     
     printf("Element Added\n");
     
+    printf("Elment Count %d\n", elementCount(queue));
+    
     printAll(queue);
     
     printf("isEmpty? %d\n", isEmpty(queue));
@@ -103,6 +105,18 @@ void printAll(Queue *queue) {
     }
     
     deleteAll(tmpQueue);
+}
+
+int elementCount(Queue *queue) {
+    int count;
+    
+    if (queue->front <= queue->rear) {
+        count = queue->rear - queue->front;
+    } else {
+        count = QUEUE_MAX_SIZE + (queue->rear - queue->front);
+    }
+    
+    return count;
 }
 
 void deleteAll(Queue *queue) {
