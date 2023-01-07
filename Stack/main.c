@@ -215,15 +215,15 @@ void printAll(Stack *stack) {
     }
     
     while (!isEmpty(tmpStack)) {
-        element value = pop(tmpStack);
+        element item = pop(tmpStack);
         
         if (isEmpty(tmpStack)) {
-            printf(">%c<\n", value);
+            printf(">%c<\n", item);
         } else {
-            printf("%c ", value);
+            printf("%c ", item);
         }
         
-        push(stack, value);
+        push(stack, item);
     }
     
     deleteAll(tmpStack);

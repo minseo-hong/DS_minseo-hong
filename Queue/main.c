@@ -101,6 +101,8 @@ void printAll(Queue *queue) {
         
         enqueue(queue, item);
     }
+    
+    deleteAll(tmpQueue);
 }
 
 void deleteAll(Queue *queue) {
