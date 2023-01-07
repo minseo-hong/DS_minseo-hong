@@ -20,13 +20,13 @@ typedef struct {
 Stack* create(void);
 int isFull(Stack *stack);
 int isEmpty(Stack *stack);
-void push(Stack *stack, element value);
+void push(Stack *stack, element item);
 element pop(Stack *stack);
 element peek(Stack *stack);
 void printAll(Stack *stack);
 void top(Stack *stack);
-void replace(Stack *stack, element value);
-int isMemeber(Stack *stack, element value);
+void replace(Stack *stack, element item);
+int isMemeber(Stack *stack, element item);
 int elementCount(Stack *stack);
 void clearAll(Stack *stack);
 void deleteAll(Stack *stack);

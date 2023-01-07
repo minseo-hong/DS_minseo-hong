@@ -165,7 +165,7 @@ int isEmpty(Stack *stack) {
     return (stack->top == -1);
 }
 
-void push(Stack *stack, element value) {
+void push(Stack *stack, element item) {
     if (isFull(stack)) {
         printf("Error (no space to push)\n");
         
@@ -174,7 +174,7 @@ void push(Stack *stack, element value) {
     
     (stack->top)++;
     
-    stack->data[stack->top] = value;
+    stack->data[stack->top] = item;
 }
 
 element pop(Stack *stack) {
@@ -239,13 +239,13 @@ void top(Stack *stack) {
     printf("(%d, %c)\n", stack->top + 1, peek(stack));
 }
 
-void replace(Stack *stack, element value) {
+void replace(Stack *stack, element item) {
     pop(stack);
-    push(stack, value);
+    push(stack, item);
 }
 
-int isMemeber(Stack *stack, element value) {
-    return stack->data[stack->top] == value;
+int isMemeber(Stack *stack, element item) {
+    return stack->data[stack->top] == item;
 }
 
 int elementCount(Stack *stack) {
