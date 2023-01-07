@@ -119,6 +119,26 @@ int elementCount(Queue *queue) {
     return count;
 }
 
+int isMember(Queue *queue, element item) {
+    int isMember = FALSE;
+    
+    Queue *tmpQueue = create();
+    
+    while (!isEmpty(queue)) {
+        if (peek(queue) == item) {
+            isMember = TRUE;
+        }
+        
+        enqueue(tmpQueue, dequeue(queue));
+    }
+    
+    while (!isEmpty(tmpQueue)) {
+        enqueue(queue, dequeue(tmpQueue));
+    }
+    
+    return isMember;
+}
+
 void clearAll(Queue *queue) {
     while (!isEmpty(queue)) {
         dequeue(queue);

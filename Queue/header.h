@@ -25,4 +25,6 @@ element dequeue(Queue *queue);
 element peek(Queue *queue);
 void printAll(Queue *queue);
 int elementCount(Queue *queue);
+int isMember(Queue *queue, element item)
+void clearAll(Queue *queue);
 void deleteAll(Queue *queue);
