@@ -245,7 +245,23 @@ void replace(Stack *stack, element item) {
 }
 
 int isMemeber(Stack *stack, element item) {
-    return stack->data[stack->top] == item;
+    int isMember = FALSE;
+    
+    Stack *tmpStack = create();
+    
+    while (stack->top != -1) {
+        if (peek(stack) == item) {
+            isMember = TRUE;
+        }
+        
+        push(tmpStack, pop(stack));
+    }
+    
+    while (tmpStack->top != -1) {
+        push(stack, pop(tmpStack));
+    }
+    
+    return isMember;
 }
 
 int elementCount(Stack *stack) {
