@@ -39,13 +39,10 @@ int main(void) {
         int index = 0;
         
         while (command[index] != '\0') {
-            int mulNum = 1;
             int popIter = 0;
             
-            while (isdigit(command[index])) {
-                popIter += (command[index] - '0') * mulNum;
-                
-                mulNum *= 10;
+            if (isdigit(command[index])) {
+                popIter += command[index] - '0';
                 
                 index++;
             }
