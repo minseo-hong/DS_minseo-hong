@@ -119,6 +119,12 @@ int elementCount(Queue *queue) {
     return count;
 }
 
+void clearAll(Queue *queue) {
+    while (!isEmpty(queue)) {
+        dequeue(queue);
+    }
+}
+
 void deleteAll(Queue *queue) {
     free(queue);
 }
