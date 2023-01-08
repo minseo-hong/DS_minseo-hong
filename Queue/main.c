@@ -3,25 +3,110 @@
 int main(void) {
     Queue *queue = create();
     
-    printf("isEmpty? %d\n", isEmpty(queue));
+    char command[COMMAND_MAX_SIZE];
     
-    enqueue(queue, 'a');
-    enqueue(queue, 'b');
-    enqueue(queue, 'c');
+    int i, index;
     
-    printf("Element Added\n");
+    int printFlag;
     
-    printf("Elment Count %d\n", elementCount(queue));
+    char endContinue;
     
-    printAll(queue);
-    
-    printf("isEmpty? %d\n", isEmpty(queue));
-    
-    printf("peek %c\n", peek(queue));
-    
-    printf("dequeue %c\n", dequeue(queue));
-    printf("dequeue %c\n", dequeue(queue));
-    printf("dequeue %c\n", dequeue(queue));
+    while (TRUE) {
+        for (i = 0; i < COMMAND_MAX_SIZE; i++) {
+            if (command[i] == '\0') {
+                break;
+            } else {
+                command[i] = '\0';
+            }
+        }
+        
+        printf(">> ");
+        scanf("%[^\n]", command);
+        getchar();
+        
+        if (!strcmp(command, "END")) {
+            printf("Are you sure to end this program? (Y/N) ");
+            scanf("%c", &endContinue);
+            getchar();
+            
+            if (endContinue == 'Y' || endContinue == 'y') {
+                printf("\n");
+                
+                break;
+            } else {
+                continue;
+            }
+        }
+        
+        index = 0;
+        
+        printFlag = FALSE;
+        
+        while (command[index] != '\0') {
+            switch (command[index]) {
+                case '+':
+                    index++;
+                    
+                    enqueue(queue, command[index]);
+                    
+                    printFlag = TRUE;
+                    
+                    break;
+                case '-':
+                    dequeue(queue);
+                    
+                    printFlag = TRUE;
+                    
+                    break;
+                case 'F':
+                    if (isFull(queue)) {
+                        printf("TRUE\n");
+                    } else {
+                        printf("FALSE\n");
+                    }
+                    
+                    break;
+                case 'E':
+                    if (isEmpty(queue)) {
+                        printf("TRUE\n");
+                    } else {
+                        printf("FALSE\n");
+                    }
+                    
+                    break;
+                case 'P':
+                    printf("%c\n", peek(queue));
+                    
+                    break;
+                case '#':
+                    printf("%d\n", elementCount(queue));
+                    
+                    break;
+                case '?':
+                    index++;
+                    
+                    if (isMember(queue, command[index])) {
+                        printf("TRUE\n");
+                    } else {
+                        printf("FALSE\n");
+                    }
+                    
+                    break;
+                case 'C':
+                    clearAll(queue);
+                    
+                    printFlag = TRUE;
+                    
+                    break;
+            }
+            
+            index++;
+        }
+        
+        if (printFlag) {
+            printAll(queue);
+        }
+    }
     
     deleteAll(queue);
     
@@ -80,31 +165,33 @@ element peek(Queue *queue) {
 }
 
 void printAll(Queue *queue) {
-    Queue *tmpQueue = create();
-    
     if (isEmpty(queue)) {
         printf("-\n");
         
         return ;
     }
     
-    while (!isEmpty(queue)) {
-        enqueue(tmpQueue, dequeue(queue));
-    }
+    int i = queue->front;
     
-    while (!isEmpty(tmpQueue)) {
-        element item = dequeue(tmpQueue);
+    int isFirst = TRUE;
+    
+    while (TRUE) {
+        i = (i + 1) % QUEUE_MAX_SIZE;
         
-        if (isEmpty(tmpQueue)) {
-            printf(">%c<\n", item);
+        if (isFirst) {
+            printf(">%c<", queue->data[i]);
+            
+            isFirst = FALSE;
         } else {
-            printf("%c ", item);
+            printf(" %c", queue->data[i]);
         }
         
-        enqueue(queue, item);
+        if (i == queue->rear) {
+            printf("\n");
+            
+            break;
+        }
     }
-    
-    deleteAll(tmpQueue);
 }
 
 int elementCount(Queue *queue) {

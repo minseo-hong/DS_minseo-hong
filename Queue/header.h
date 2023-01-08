@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define QUEUE_MAX_SIZE  100
+#define QUEUE_MAX_SIZE      100
+
+#define COMMAND_MAX_SIZE    100
 
 #define TRUE    1
 #define FALSE   0
@@ -25,6 +27,6 @@ element dequeue(Queue *queue);
 element peek(Queue *queue);
 void printAll(Queue *queue);
 int elementCount(Queue *queue);
-int isMember(Queue *queue, element item)
+int isMember(Queue *queue, element item);
 void clearAll(Queue *queue);
 void deleteAll(Queue *queue);
