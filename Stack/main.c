@@ -36,26 +36,26 @@ int main(void) {
         
         int printFlag = FALSE;
         
-        int index = 0;
+        int cmdIndex = 0;
         
-        while (command[index] != '\0') {
+        while (command[cmdIndex] != '\0') {
             int popIter = 0;
             
-            while (isdigit(command[index])) {
-                popIter = popIter * 10 + (command[index] - '0');
+            while (isdigit(command[cmdIndex])) {
+                popIter = popIter * 10 + (command[cmdIndex] - '0');
                 
-                index++;
+                cmdIndex++;
             }
             
-            switch (command[index]) {
+            switch (command[cmdIndex]) {
                 case '+':
                     if (!isFull(stack)) {
                         printFlag = TRUE;
                     }
                     
-                    index++;
+                    cmdIndex++;
                     
-                    push(stack, command[index]);
+                    push(stack, command[cmdIndex]);
                     
                     break;
                 case '-':
@@ -68,12 +68,12 @@ int main(void) {
                             pop(stack);
                         }
                         
-                        index++;
+                        cmdIndex++;
                     } else {
-                        while (command[index] == '-') {
+                        while (command[cmdIndex] == '-') {
                             pop(stack);
                             
-                            index++;
+                            cmdIndex++;
                         }
                     }
                     
@@ -111,9 +111,9 @@ int main(void) {
                     
                     break;
                 case '?':
-                    index++;
+                    cmdIndex++;
                     
-                    if (isMemeber(stack, command[index])) {
+                    if (isMemeber(stack, command[cmdIndex])) {
                         printf("TRUE\n");
                     } else {
                         printf("FALSE\n");
@@ -121,9 +121,9 @@ int main(void) {
                     
                     break;
                 case '=':
-                    index++;
+                    cmdIndex++;
                     
-                    replace(stack, command[index]);
+                    replace(stack, command[cmdIndex]);
                     
                     printFlag = TRUE;
                     
@@ -136,7 +136,7 @@ int main(void) {
                     break;
             }
             
-            index++;
+            cmdIndex++;
         }
         
         if (printFlag) {

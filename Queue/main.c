@@ -5,7 +5,7 @@ int main(void) {
     
     char command[COMMAND_MAX_SIZE];
     
-    int i, index;
+    int i, cmdIndex;
     
     int printFlag;
     
@@ -38,16 +38,16 @@ int main(void) {
             }
         }
         
-        index = 0;
+        cmdIndex = 0;
         
         printFlag = FALSE;
         
-        while (command[index] != '\0') {
-            switch (command[index]) {
+        while (command[cmdIndex] != '\0') {
+            switch (command[cmdIndex]) {
                 case '+':
-                    index++;
+                    cmdIndex++;
                     
-                    enqueue(queue, command[index]);
+                    enqueue(queue, command[cmdIndex]);
                     
                     printFlag = TRUE;
                     
@@ -83,9 +83,9 @@ int main(void) {
                     
                     break;
                 case '?':
-                    index++;
+                    cmdIndex++;
                     
-                    if (isMember(queue, command[index])) {
+                    if (isMember(queue, command[cmdIndex])) {
                         printf("TRUE\n");
                     } else {
                         printf("FALSE\n");
@@ -100,7 +100,7 @@ int main(void) {
                     break;
             }
             
-            index++;
+            cmdIndex++;
         }
         
         if (printFlag) {
