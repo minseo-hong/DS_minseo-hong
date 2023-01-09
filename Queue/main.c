@@ -3,22 +3,19 @@
 int main(void) {
     Queue *queue = create();
     
-    char command[COMMAND_MAX_SIZE];
+    char command[STR_MAX_SIZE];
     
     int i, cmdIndex;
     
-    int printFlag;
-    
     char endContinue;
     
+    int printFlag;
+    
+    char popResult[STR_MAX_SIZE];
+    char tmpStr[STR_MAX_SIZE];
+    
     while (TRUE) {
-        for (i = 0; i < COMMAND_MAX_SIZE; i++) {
-            if (command[i] == '\0') {
-                break;
-            } else {
-                command[i] = '\0';
-            }
-        }
+        command[0] = '\0';
         
         printf(">> ");
         scanf("%[^\n]", command);
@@ -40,6 +37,9 @@ int main(void) {
         
         cmdIndex = 0;
         
+        popResult[0] = '\0';
+        tmpStr[0] = '\0';
+        
         printFlag = FALSE;
         
         while (command[cmdIndex] != '\0') {
@@ -53,7 +53,8 @@ int main(void) {
                     
                     break;
                 case '-':
-                    dequeue(queue);
+                    sprintf(tmpStr, " %c", dequeue(queue));
+                    strcat(popResult, tmpStr);
                     
                     printFlag = TRUE;
                     
@@ -76,6 +77,10 @@ int main(void) {
                     break;
                 case 'P':
                     printf("%c\n", peek(queue));
+                    
+                    break;
+                case 'L':
+                    printFlag = TRUE;
                     
                     break;
                 case '#':
@@ -101,6 +106,11 @@ int main(void) {
             }
             
             cmdIndex++;
+        }
+        
+        if (strcmp(popResult, "")) {
+            printf("return");
+            printf("%s\n", popResult);
         }
         
         if (printFlag) {

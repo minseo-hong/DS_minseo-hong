@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define QUEUE_MAX_SIZE      100
+#define QUEUE_MAX_SIZE  100
 
-#define COMMAND_MAX_SIZE    100
+#define STR_MAX_SIZE    100
 
 #define TRUE    1
 #define FALSE   0
