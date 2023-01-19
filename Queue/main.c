@@ -5,7 +5,7 @@ int main(void) {
     
     char command[STR_MAX_SIZE];
     
-    int i, cmdIndex;
+    int cmdIndex;
     
     char endContinue;
     
