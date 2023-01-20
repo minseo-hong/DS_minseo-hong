@@ -149,10 +149,10 @@ void deleteAll(Tree *tree) {
     free(tree);
 }
 
-void deleteSubTree(TreeNode *node) {
-    if (node != NULL) {
-        deleteSubTree(node->left);
-        deleteSubTree(node->right);
-        free(node);
+void deleteSubTree(TreeNode *root) {
+    if (root != NULL) {
+        deleteSubTree(root->left);
+        deleteSubTree(root->right);
+        free(root);
     }
 }

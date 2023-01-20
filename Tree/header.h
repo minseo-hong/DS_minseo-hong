@@ -31,4 +31,4 @@ TreeNode* newNode(element key);
 int isEmpty(Tree *tree);
 void clearAll(Tree *tree);
 void deleteAll(Tree *tree);
-void deleteSubTree(TreeNode *node);
+void deleteSubTree(TreeNode *root);
