@@ -7,8 +7,8 @@
 
 #define COMMAND_MAX_SIZE    100
 
-#define TMP_STR_MAX_SIZE    100
 #define KEY_STR_MAX_SIZE    100
+#define TMP_STR_MAX_SIZE    10
 
 typedef int element;
 
@@ -23,12 +23,13 @@ typedef struct Tree {
 
 int isCommandEnd(char *command);
 int convertCmdToInt(char *command, int cmdIndex);
-
 Tree* create(void);
 void insertNode(Tree *tree, element key);
 TreeNode* _insertNode(TreeNode *node, element key);
 TreeNode* newNode(element key);
+void printAll(Tree *tree);
+void traversal(TreeNode *node);
 int isEmpty(Tree *tree);
 void clearAll(Tree *tree);
 void deleteAll(Tree *tree);
-void deleteSubTree(TreeNode *root);
+void deleteSubTree(TreeNode *node);

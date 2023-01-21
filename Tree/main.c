@@ -5,10 +5,7 @@ int main(void) {
     
     char command[COMMAND_MAX_SIZE];
     
-    int cmdIndex;
-    
-    int newKey;
-    
+    int cmdIndex, newKey, printFlag;
     
     while (TRUE) {
         command[0] = '\0';
@@ -21,14 +18,23 @@ int main(void) {
             break;
         }
         
+        printFlag = FALSE;
+        
         cmdIndex = 0;
         
         while (command[cmdIndex] != '\0') {
             switch (command[cmdIndex]) {
                 case '+':
-                    newKey = convertCmdToInt(command, cmdIndex);
+                    cmdIndex++;
                     
+                    newKey = convertCmdToInt(command, cmdIndex);
                     insertNode(tree, newKey);
+                    
+                    printFlag = TRUE;
+                    
+                    break;
+                case 'L':
+                    printFlag = TRUE;
                     
                     break;
                 case 'E':
@@ -46,6 +52,10 @@ int main(void) {
             }
             
             cmdIndex++;
+        }
+        
+        if (printFlag) {
+            printAll(tree);
         }
     }
     
@@ -75,16 +85,14 @@ int isCommandEnd(char *command) {
 int convertCmdToInt(char *command, int cmdIndex) {
     int key;
     
-    int keyIndex = cmdIndex;
+    char keyStr[KEY_STR_MAX_SIZE] = "";
+    char tmpStr[TMP_STR_MAX_SIZE] = "";
     
-    char keyStr[KEY_STR_MAX_SIZE];
-    char tmpStr[TMP_STR_MAX_SIZE];
-    
-    while (command[keyIndex] >= '0' && command[keyIndex] <= '9') {
-        sprintf(tmpStr, "%c", command[keyIndex]);
+    while (command[cmdIndex] >= '0' && command[cmdIndex] <= '9') {
+        sprintf(tmpStr, "%c", command[cmdIndex]);
         strcat(keyStr, tmpStr);
         
-        keyIndex++;
+        cmdIndex++;
     }
     
     key = atoi(keyStr);
@@ -95,13 +103,15 @@ int convertCmdToInt(char *command, int cmdIndex) {
 Tree* create(void) {
     Tree *newTree = (Tree *)malloc(sizeof(Tree));
     
-    newTree->root = NULL;
-    
     return newTree;
 }
 
 void insertNode(Tree *tree, element key) {
-    _insertNode(tree->root, key);
+    if (tree->root == NULL) {
+        tree->root = newNode(key);
+    } else {
+        _insertNode(tree->root, key);
+    }
 }
 
 TreeNode* _insertNode(TreeNode *node, element key) {
@@ -129,6 +139,24 @@ TreeNode* newNode(element key) {
     return newNode;
 }
 
+void printAll(Tree *tree) {
+    if (tree->root == NULL) {
+        printf("-");
+    } else {
+        traversal(tree->root);
+    }
+    
+    printf("\n");
+}
+
+void traversal(TreeNode *node) {
+    if (node != NULL) {
+        traversal(node->left);
+        printf("%d ", node->key);
+        traversal(node->right);
+    }
+}
+
 int isEmpty(Tree *tree) {
     if (tree->root == NULL) {
         return TRUE;
@@ -149,10 +177,10 @@ void deleteAll(Tree *tree) {
     free(tree);
 }
 
-void deleteSubTree(TreeNode *root) {
-    if (root != NULL) {
-        deleteSubTree(root->left);
-        deleteSubTree(root->right);
-        free(root);
+void deleteSubTree(TreeNode *node) {
+    if (node != NULL) {
+        deleteSubTree(node->left);
+        deleteSubTree(node->right);
+        free(node);
     }
 }
