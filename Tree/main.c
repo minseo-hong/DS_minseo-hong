@@ -42,7 +42,9 @@ int main(void) {
                     
                     break;
                 case 'C':
-                    clearAll(tree);
+                    tree = clearAll(tree);
+                    
+                    printFlag = TRUE;
                     
                     break;
             }
@@ -159,9 +161,12 @@ int isEmpty(Tree *tree) {
     }
 }
 
-void clearAll(Tree *tree) {
+Tree* clearAll(Tree *tree) {
     deleteAll(tree);
-    tree = create();
+    
+    Tree *newTree = create();
+    
+    return newTree;
 }
 
 void deleteAll(Tree *tree) {

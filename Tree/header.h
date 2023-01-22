@@ -30,6 +30,6 @@ TreeNode* newNode(element key);
 void printAll(Tree *tree);
 void traversal(TreeNode *node);
 int isEmpty(Tree *tree);
-void clearAll(Tree *tree);
+Tree* clearAll(Tree *tree);
 void deleteAll(Tree *tree);
 void deleteSubTree(TreeNode *node);
