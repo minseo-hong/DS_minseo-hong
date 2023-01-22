@@ -4,11 +4,12 @@ int main(void) {
     Tree *tree = create();
     
     char command[COMMAND_MAX_SIZE];
-    
     int cmdIndex, newKey, printFlag;
     
     while (TRUE) {
-        command[0] = '\0';
+        cmdIndex = 0;
+        command[cmdIndex] = '\0';
+        printFlag = FALSE;
         
         printf(">> ");
         scanf("%[^\n]", command);
@@ -18,15 +19,10 @@ int main(void) {
             break;
         }
         
-        printFlag = FALSE;
-        
-        cmdIndex = 0;
-        
         while (command[cmdIndex] != '\0') {
             switch (command[cmdIndex]) {
                 case '+':
                     cmdIndex++;
-                    
                     newKey = convertCmdToInt(command, cmdIndex);
                     insertNode(tree, newKey);
                     
@@ -84,7 +80,6 @@ int isCommandEnd(char *command) {
 
 int convertCmdToInt(char *command, int cmdIndex) {
     int key;
-    
     char keyStr[KEY_STR_MAX_SIZE] = "";
     char tmpStr[TMP_STR_MAX_SIZE] = "";
     
@@ -132,7 +127,6 @@ TreeNode* newNode(element key) {
     TreeNode *newNode = (TreeNode *)malloc(sizeof(TreeNode));
     
     newNode->key = key;
-    
     newNode->left = NULL;
     newNode->right = NULL;
     
@@ -167,13 +161,11 @@ int isEmpty(Tree *tree) {
 
 void clearAll(Tree *tree) {
     deleteAll(tree);
-    
     tree = create();
 }
 
 void deleteAll(Tree *tree) {
     deleteSubTree(tree->root);
-    
     free(tree);
 }
 
