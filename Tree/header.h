@@ -5,6 +5,8 @@
 #define TRUE    1
 #define FALSE   0
 
+#define NULL_INT    -999999999
+
 #define COMMAND_MAX_SIZE    100
 
 #define KEY_STR_MAX_SIZE    100
@@ -29,6 +31,10 @@ TreeNode* _insertNode(TreeNode *node, element key);
 TreeNode* newNode(element key);
 void printAll(Tree *tree);
 void traversal(TreeNode *node);
+element getMin(Tree *tree);
+element _getMin(TreeNode *node);
+element getMax(Tree *tree);
+element _getMax(TreeNode *node);
 int isEmpty(Tree *tree);
 Tree* clearAll(Tree *tree);
 void deleteAll(Tree *tree);

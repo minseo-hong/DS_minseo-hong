@@ -4,7 +4,9 @@ int main(void) {
     Tree *tree = create();
     
     char command[COMMAND_MAX_SIZE];
-    int cmdIndex, newKey, printFlag;
+    int cmdIndex, printFlag;
+    
+    element newKey, minKey, maxKey;
     
     while (TRUE) {
         cmdIndex = 0;
@@ -31,6 +33,22 @@ int main(void) {
                     break;
                 case 'L':
                     printFlag = TRUE;
+                    
+                    break;
+                case 'N':
+                    minKey = getMin(tree);
+                    
+                    if (minKey != NULL_INT) {
+                        printf("%d\n", minKey);
+                    }
+                    
+                    break;
+                case 'M':
+                    maxKey = getMax(tree);
+                    
+                    if (maxKey != NULL_INT) {
+                        printf("%d\n", maxKey);
+                    }
                     
                     break;
                 case 'E':
@@ -151,6 +169,42 @@ void traversal(TreeNode *node) {
         printf("%d ", node->key);
         traversal(node->right);
     }
+}
+
+element getMin(Tree *tree) {
+    if (isEmpty(tree)) {
+        printf("Error (tree is empty)\n");
+        
+        return NULL_INT;
+    }
+    
+    return _getMin(tree->root);
+}
+
+element _getMin(TreeNode *node) {
+    if (node->left == NULL) {
+        return node->key;
+    }
+    
+    return _getMin(node->left);
+}
+
+element getMax(Tree *tree) {
+    if (isEmpty(tree)) {
+        printf("Error (tree is empty)\n");
+        
+        return NULL_INT;
+    }
+    
+    return _getMax(tree->root);
+}
+
+element _getMax(TreeNode *node) {
+    if (node->right == NULL) {
+        return node->key;
+    }
+    
+    return _getMax(node->right);
 }
 
 int isEmpty(Tree *tree) {
