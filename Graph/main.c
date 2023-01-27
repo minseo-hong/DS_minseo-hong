@@ -3,7 +3,7 @@
 
 #define TRUE    1
 #define FALSE   0
-#define VERTEX_MAX_SIZE    50
+#define VERTEX_MAX_SIZE    10
 
 typedef struct Graph {
     int size;
@@ -18,6 +18,7 @@ int isVertexNumError(Graph *graph, int start, int end);
 void insertEdge(Graph *graph, int start, int end);
 void printAdjMatrix(Graph *graph);
 void deleteEdge(Graph *graph, int start, int end);
+void deleteVertex(Graph *graph, int vertex);
 
 int main(void) {
     Graph *graph = create();
@@ -36,6 +37,9 @@ int main(void) {
     deleteEdge(graph, 0, 1);
     printf("Edge with Vertex 0 and 1 removed\n");
     printAdjMatrix(graph);
+    deleteVertex(graph, 0);
+    printf("Vertex 0 removed\n");
+    printAdjMatrix(graph);
     return 0;
 }
 
@@ -44,7 +48,7 @@ Graph* create(void) {
     newGraph->size = 0;
     for (int row = 0; row < VERTEX_MAX_SIZE; row++)
         for (int col = 0; col < VERTEX_MAX_SIZE; col++)
-            newGraph->adjMatrix[row][col] = 0;
+            newGraph->adjMatrix[row][col] = -1;
     return newGraph;
 }
 
@@ -53,7 +57,7 @@ int isEmpty(Graph *graph) {
 }
 
 int isFull(Graph *graph) {
-    return ((graph->size + 1) > VERTEX_MAX_SIZE);
+    return (graph->size == VERTEX_MAX_SIZE);
 }
 
 int isVertexNumError(Graph *graph, int start, int end) {
@@ -64,6 +68,11 @@ void insertVertex(Graph *graph, int vertex) {
     if (isFull(graph))
         return;
     graph->size++;
+    for (int i = 0; i < graph->size; i++) {
+        graph->adjMatrix[vertex][i] = 0;
+        graph->adjMatrix[i][vertex] = 0;
+    }
+    
 }
 
 void insertEdge(Graph *graph, int start, int end) {
@@ -74,17 +83,33 @@ void insertEdge(Graph *graph, int start, int end) {
 }
 
 void printAdjMatrix(Graph *graph) {
-    for (int row = 0; row < graph->size; row++) {
-        for (int col = 0; col < graph->size; col++)
-            printf("%d ", graph->adjMatrix[row][col]);
-        printf("\n");
+    int isEmptyRow;
+    for (int row = 0; row < VERTEX_MAX_SIZE; row++) {
+        isEmptyRow = TRUE;
+        for (int col = 0; col < VERTEX_MAX_SIZE; col++) {
+            if (graph->adjMatrix[row][col] != -1) {
+                printf("%d ", graph->adjMatrix[row][col]);
+                isEmptyRow = FALSE;
+            }
+        }
+        if (!isEmptyRow)
+            printf("\n");
     }
 }
 
-void deleteEdge(Graph *graph, int start, int end) {
-    if (isVertexNumError(graph, start, end)) {
+void deleteVertex(Graph *graph, int vertex) {
+    if (isEmpty(graph))
         return;
+    for (int i = 0; i < graph->size; i++) {
+        graph->adjMatrix[vertex][i] = -1;
+        graph->adjMatrix[i][vertex] = -1;
     }
+    graph->size--;
+}
+
+void deleteEdge(Graph *graph, int start, int end) {
+    if (isVertexNumError(graph, start, end))
+        return;
     graph->adjMatrix[start][end] = 0;
     graph->adjMatrix[end][start] = 0;
 }
