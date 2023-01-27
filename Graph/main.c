@@ -1,25 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define VERTEX_MAX_SIZE    100
-
 #define TRUE    1
 #define FALSE   0
+#define VERTEX_MAX_SIZE    100
 
 typedef struct GraphNode {
-    int vertex;
-    struct GraphNode *link;
+    int vertexName;
+    struct GraphNode *nextNode;
 } GraphNode;
 
 typedef struct Graph {
-    int n;
-    GraphNode *adjList[VERTEX_MAX_SIZE];
+    int vertexCount;
+    GraphNode *headerVertexGroup[VERTEX_MAX_SIZE];
 } Graph;
 
 Graph* create(void);
 int isFull(Graph *graph);
-void insertVertex(Graph *graph, int v);
-void printAdjList(Graph *graph);
+void insertVertex(Graph *graph, int newVertexName);
+void insertEdge(Graph *graph, int start, int end);
+void swapAndInsertEdge(Graph *graph, int startVertexName, int endVertexName);
+void printGraphAdjList(Graph *graph);
+
+int isFirstInsertEdge = TRUE; // 간선 추가 함수를 1번만 재귀호출하기 위한 플래그
 
 int main(void) {
     Graph *graph = create();
@@ -28,57 +31,68 @@ int main(void) {
 
 Graph* create(void) {
     Graph *newGraph = (Graph *)malloc(sizeof(Graph));
-    newGraph->n = 0;
+    newGraph->vertexCount = 0;
     for (int i = 0; i < VERTEX_MAX_SIZE; i++) {
-        newGraph->adjList[i] = NULL;
+        newGraph->headerVertexGroup[i] = NULL;
     }
     return newGraph;
 }
 
 int isFull(Graph *graph) {
-    if ((graph->n + 1) > VERTEX_MAX_SIZE)
-        return FALSE;
-    return TRUE;
+    return (graph->vertexCount + 1) > VERTEX_MAX_SIZE;
 }
 
-void insertVertex(Graph *graph, int vertex) {
-    GraphNode *newNode;
+void insertVertex(Graph *graph, int newVertexName) {
+    int newVertexIndex = graph->vertexCount;
+    GraphNode *newVertex;
     if (isFull(graph))
         return;
-    newNode = (GraphNode *)malloc(sizeof(GraphNode));
-    newNode->vertex = vertex;
-    newNode->link = graph->adjList[graph->n];
-    graph->adjList[graph->n] = newNode;
-    graph->n++;
-    
+    newVertex = (GraphNode *)malloc(sizeof(GraphNode));
+    newVertex->vertexName = newVertexName;
+    newVertex->nextNode = graph->headerVertexGroup[newVertexIndex];
+    graph->headerVertexGroup[newVertexIndex] = newVertex;
+    graph->vertexCount++;
 }
 
-void insertEdge(Graph *graph, int start, int end) {
-    int i;
-    GraphNode *newNode;
-    for (i = 0; i < graph->n; i++)
-        if (graph->adjList[i]->vertex == start)
+void insertEdge(Graph *graph, int startVertexName, int endVertexName) {
+    int searchedVertexIndex = 0;
+    GraphNode *newEdgeVertex;
+    for (int i = 0; i < graph->vertexCount; i++) {
+        if (graph->headerVertexGroup[i]->vertexName == startVertexName) {
+            searchedVertexIndex = i;
             break;
-    newNode = (GraphNode *)malloc(sizeof(GraphNode));
-    newNode->vertex = end;
-    newNode->link = graph->adjList[i];
-    graph->adjList[i] = newNode;
+        }
+    }
+    newEdgeVertex = (GraphNode *)malloc(sizeof(GraphNode));
+    newEdgeVertex->vertexName = endVertexName;
+    newEdgeVertex->nextNode = graph->headerVertexGroup[searchedVertexIndex];
+    graph->headerVertexGroup[searchedVertexIndex] = newEdgeVertex;
+    if (isFirstInsertEdge) {
+        isFirstInsertEdge = FALSE;
+        swapAndInsertEdge(graph, startVertexName, endVertexName);
+    } else {
+        isFirstInsertEdge = TRUE;
+    }
 }
 
-void printAdjList(Graph *graph) {
+void swapAndInsertEdge(Graph *graph, int startVertexName, int endVertexName) {
+    insertEdge(graph, endVertexName, startVertexName);
+}
+
+void printGraphAdjList(Graph *graph) {
     int isFirst;
     GraphNode *currentNode;
-    for (int i = 0; i < graph->n; i++) {
+    for (int i = 0; i < graph->vertexCount; i++) {
+        currentNode = graph->headerVertexGroup[i];
         isFirst = TRUE;
-        currentNode = graph->adjList[i];
         while (currentNode != NULL) {
             if (isFirst) {
-                printf("정점 %d", currentNode->vertex);
+                printf("정점 %d", currentNode->vertexName);
                 isFirst = FALSE;
             } else {
-                printf(" -> %d", currentNode->vertex);
+                printf(" -> %d", currentNode->vertexName);
             }
-            currentNode = currentNode->link;
+            currentNode = currentNode->nextNode;
         }
         printf("\n");
     }
