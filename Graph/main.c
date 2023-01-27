@@ -17,6 +17,7 @@ void insertVertex(Graph *graph, int vertex);
 int isVertexNumError(Graph *graph, int start, int end);
 void insertEdge(Graph *graph, int start, int end);
 void printAdjMatrix(Graph *graph);
+void deleteEdge(Graph *graph, int start, int end);
 
 int main(void) {
     Graph *graph = create();
@@ -31,6 +32,9 @@ int main(void) {
     insertEdge(graph, 1, 2);
     printf("Edge with Vertex 0 and 1 added\n");
     printf("Edge with Vertex 1 and 2 added\n");
+    printAdjMatrix(graph);
+    deleteEdge(graph, 0, 1);
+    printf("Edge with Vertex 0 and 1 removed\n");
     printAdjMatrix(graph);
     return 0;
 }
@@ -75,4 +79,12 @@ void printAdjMatrix(Graph *graph) {
             printf("%d ", graph->adjMatrix[row][col]);
         printf("\n");
     }
+}
+
+void deleteEdge(Graph *graph, int start, int end) {
+    if (isVertexNumError(graph, start, end)) {
+        return;
+    }
+    graph->adjMatrix[start][end] = 0;
+    graph->adjMatrix[end][start] = 0;
 }
