@@ -43,7 +43,7 @@ int isEmpty(Graph *graph) {
 }
 
 int isFull(Graph *graph) {
-    return (graph->vertexCount + 1) > VERTEX_MAX_SIZE;
+    return graph->vertexCount >= VERTEX_MAX_SIZE;
 }
 
 void insertVertex(Graph *graph, int newVertexName) {
