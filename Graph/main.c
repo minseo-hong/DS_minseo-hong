@@ -38,6 +38,10 @@ Graph* create(void) {
     return newGraph;
 }
 
+int isEmpty(Graph *graph) {
+    return graph->vertexCount == 0;
+}
+
 int isFull(Graph *graph) {
     return (graph->vertexCount + 1) > VERTEX_MAX_SIZE;
 }
