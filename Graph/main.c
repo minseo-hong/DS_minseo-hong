@@ -3,101 +3,76 @@
 
 #define TRUE    1
 #define FALSE   0
-#define VERTEX_MAX_SIZE    100
-
-typedef struct GraphNode {
-    int vertexName;
-    struct GraphNode *nextNode;
-} GraphNode;
+#define VERTEX_MAX_SIZE    50
 
 typedef struct Graph {
-    int vertexCount;
-    GraphNode *headerVertexGroup[VERTEX_MAX_SIZE];
+    int size;
+    int adjMatrix[VERTEX_MAX_SIZE][VERTEX_MAX_SIZE];
 } Graph;
 
 Graph* create(void);
+int isEmpty(Graph *graph);
 int isFull(Graph *graph);
-void insertVertex(Graph *graph, int newVertexName);
+void insertVertex(Graph *graph, int vertex);
+int isVertexNumError(Graph *graph, int start, int end);
 void insertEdge(Graph *graph, int start, int end);
-void swapAndInsertEdge(Graph *graph, int startVertexName, int endVertexName);
-void printGraphAdjList(Graph *graph);
-
-int isFirstInsertEdge = TRUE; // 간선 추가 함수를 1번만 재귀호출하기 위한 플래그
+void printAdjMatrix(Graph *graph);
 
 int main(void) {
     Graph *graph = create();
+    printf("isEmpty : %d, isFull : %d\n", isEmpty(graph), isFull(graph));
+    insertVertex(graph, 0);
+    printf("Vertex 0 added\n");
+    printf("isEmpty : %d, isFull : %d\n", isEmpty(graph), isFull(graph));
+    insertVertex(graph, 1);
+    insertVertex(graph, 2);
+    printf("Vertex 1, 2 added\n");
+    insertEdge(graph, 0, 1);
+    insertEdge(graph, 1, 2);
+    printf("Edge with Vertex 0 and 1 added\n");
+    printf("Edge with Vertex 1 and 2 added\n");
+    printAdjMatrix(graph);
     return 0;
 }
 
 Graph* create(void) {
     Graph *newGraph = (Graph *)malloc(sizeof(Graph));
-    newGraph->vertexCount = 0;
-    for (int i = 0; i < VERTEX_MAX_SIZE; i++) {
-        newGraph->headerVertexGroup[i] = NULL;
-    }
+    newGraph->size = 0;
+    for (int row = 0; row < VERTEX_MAX_SIZE; row++)
+        for (int col = 0; col < VERTEX_MAX_SIZE; col++)
+            newGraph->adjMatrix[row][col] = 0;
     return newGraph;
 }
 
 int isEmpty(Graph *graph) {
-    return graph->vertexCount == 0;
+    return (graph->size == 0);
 }
 
 int isFull(Graph *graph) {
-    return graph->vertexCount >= VERTEX_MAX_SIZE;
+    return ((graph->size + 1) > VERTEX_MAX_SIZE);
 }
 
-void insertVertex(Graph *graph, int newVertexName) {
-    int newVertexIndex = graph->vertexCount;
-    GraphNode *newVertex;
+int isVertexNumError(Graph *graph, int start, int end) {
+    return (start > graph->size || end > graph->size);
+}
+
+void insertVertex(Graph *graph, int vertex) {
     if (isFull(graph))
         return;
-    newVertex = (GraphNode *)malloc(sizeof(GraphNode));
-    newVertex->vertexName = newVertexName;
-    newVertex->nextNode = graph->headerVertexGroup[newVertexIndex];
-    graph->headerVertexGroup[newVertexIndex] = newVertex;
-    graph->vertexCount++;
+    graph->size++;
 }
 
-void insertEdge(Graph *graph, int startVertexName, int endVertexName) {
-    int searchedVertexIndex = 0;
-    GraphNode *newEdgeVertex;
-    for (int i = 0; i < graph->vertexCount; i++) {
-        if (graph->headerVertexGroup[i]->vertexName == startVertexName) {
-            searchedVertexIndex = i;
-            break;
-        }
-    }
-    newEdgeVertex = (GraphNode *)malloc(sizeof(GraphNode));
-    newEdgeVertex->vertexName = endVertexName;
-    newEdgeVertex->nextNode = graph->headerVertexGroup[searchedVertexIndex];
-    graph->headerVertexGroup[searchedVertexIndex] = newEdgeVertex;
-    if (isFirstInsertEdge) {
-        isFirstInsertEdge = FALSE;
-        swapAndInsertEdge(graph, startVertexName, endVertexName);
-    } else {
-        isFirstInsertEdge = TRUE;
-    }
+void insertEdge(Graph *graph, int start, int end) {
+    if (isVertexNumError(graph, start, end))
+        return;
+    graph->adjMatrix[start][end] = 1;
+    graph->adjMatrix[end][start] = 1;
 }
 
-void swapAndInsertEdge(Graph *graph, int startVertexName, int endVertexName) {
-    insertEdge(graph, endVertexName, startVertexName);
-}
-
-void printGraphAdjList(Graph *graph) {
-    int isFirst;
-    GraphNode *currentNode;
-    for (int i = 0; i < graph->vertexCount; i++) {
-        currentNode = graph->headerVertexGroup[i];
-        isFirst = TRUE;
-        while (currentNode != NULL) {
-            if (isFirst) {
-                printf("정점 %d", currentNode->vertexName);
-                isFirst = FALSE;
-            } else {
-                printf(" -> %d", currentNode->vertexName);
-            }
-            currentNode = currentNode->nextNode;
-        }
+void printAdjMatrix(Graph *graph) {
+    for (int row = 0; row < graph->size; row++) {
+        for (int col = 0; col < graph->size; col++)
+            printf("%d ", graph->adjMatrix[row][col]);
         printf("\n");
     }
 }
