@@ -14,7 +14,7 @@ Graph* create(void);
 int isEmpty(Graph *graph);
 int isFull(Graph *graph);
 void insertVertex(Graph *graph, int vertex);
-int isVertexNumError(Graph *graph, int start, int end);
+int isEdgeNumError(Graph *graph, int start, int end);
 void insertEdge(Graph *graph, int start, int end);
 void printAdjMatrix(Graph *graph);
 void deleteEdge(Graph *graph, int start, int end);
@@ -60,13 +60,12 @@ int isFull(Graph *graph) {
     return (graph->size == VERTEX_MAX_SIZE);
 }
 
-int isVertexNumError(Graph *graph, int start, int end) {
+int isEdgeNumError(Graph *graph, int start, int end) {
     return (start > graph->size || end > graph->size);
 }
 
 void insertVertex(Graph *graph, int vertex) {
-    if (isFull(graph))
-        return;
+    if (isFull(graph)) return;
     graph->size++;
     for (int i = 0; i < graph->size; i++) {
         graph->adjMatrix[vertex][i] = 0;
@@ -76,10 +75,24 @@ void insertVertex(Graph *graph, int vertex) {
 }
 
 void insertEdge(Graph *graph, int start, int end) {
-    if (isVertexNumError(graph, start, end))
-        return;
+    if (isEdgeNumError(graph, start, end)) return;
     graph->adjMatrix[start][end] = 1;
     graph->adjMatrix[end][start] = 1;
+}
+
+void deleteVertex(Graph *graph, int vertex) {
+    if (isEmpty(graph)) return;
+    for (int i = 0; i < graph->size; i++) {
+        graph->adjMatrix[vertex][i] = -1;
+        graph->adjMatrix[i][vertex] = -1;
+    }
+    graph->size--;
+}
+
+void deleteEdge(Graph *graph, int start, int end) {
+    if (isEdgeNumError(graph, start, end)) return;
+    graph->adjMatrix[start][end] = 0;
+    graph->adjMatrix[end][start] = 0;
 }
 
 void printAdjMatrix(Graph *graph) {
@@ -92,24 +105,6 @@ void printAdjMatrix(Graph *graph) {
                 isEmptyRow = FALSE;
             }
         }
-        if (!isEmptyRow)
-            printf("\n");
+        if (!isEmptyRow) printf("\n");
     }
-}
-
-void deleteVertex(Graph *graph, int vertex) {
-    if (isEmpty(graph))
-        return;
-    for (int i = 0; i < graph->size; i++) {
-        graph->adjMatrix[vertex][i] = -1;
-        graph->adjMatrix[i][vertex] = -1;
-    }
-    graph->size--;
-}
-
-void deleteEdge(Graph *graph, int start, int end) {
-    if (isVertexNumError(graph, start, end))
-        return;
-    graph->adjMatrix[start][end] = 0;
-    graph->adjMatrix[end][start] = 0;
 }
