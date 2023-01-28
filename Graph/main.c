@@ -25,6 +25,16 @@ int main(void) {
     printAdjMatrix(graph);
     printf("\n");
     
+    // 정점 1에 인접한 모든 정점을 출력
+    adjacent(graph, 1);
+    printf("\n");
+    
+    // 각 정점에 인접한 모든 정점을 출력
+    adjacent(graph, 0);
+    adjacent(graph, 1);
+    adjacent(graph, 2);
+    printf("\n");
+    
     // 간선 0-1 삭제 후, 인접 행렬 출력
     deleteEdge(graph, 0, 1);
     printf("Remove an edge with vertex 0 and vertex 1\n");
@@ -103,5 +113,22 @@ void printAdjMatrix(Graph *graph) {
             }
         }
         if (!isEmptyRow) printf("\n");
+    }
+}
+
+void adjacent(Graph *graph, int vertex) {
+    int isEmptyRow = TRUE;
+    char adjVertexStr[ADJ_VERTEX_STR_MAX_SIZE];
+    char tmpStr[TMP_STR_MAX_SIZE];
+    for (int i = 0; i < VERTEX_MAX_SIZE; i++)
+        if (graph->adjMatrix[vertex][i] == 1) {
+            isEmptyRow = FALSE;
+            sprintf(tmpStr, " -> %d", i);
+            strcat(adjVertexStr, tmpStr);
+        }
+    if (!isEmptyRow) {
+        printf("Vertex %d", vertex);
+        printf("%s", adjVertexStr);
+        printf("\n");
     }
 }
