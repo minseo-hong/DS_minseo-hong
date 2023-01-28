@@ -2,24 +2,41 @@
 
 int main(void) {
     Graph *graph = create();
+    
+    // 정점 0 추가 후, isEmpty와 isFull 확인
     printf("isEmpty : %d, isFull : %d\n", isEmpty(graph), isFull(graph));
     insertVertex(graph, 0);
-    printf("Vertex 0 added\n");
+    printf("Add vertex 0\n");
     printf("isEmpty : %d, isFull : %d\n", isEmpty(graph), isFull(graph));
+    printf("\n");
+
+    // 정점 1과 정점 2 추가 후, 인접 행렬 출력
     insertVertex(graph, 1);
     insertVertex(graph, 2);
-    printf("Vertex 1, 2 added\n");
+    printf("Add vertex 1 and vertex 2\n");
+    printAdjMatrix(graph);
+    printf("\n");
+    
+    // 간선 0-1과 간선 1-2 추가 후, 인접 행렬 출력
     insertEdge(graph, 0, 1);
     insertEdge(graph, 1, 2);
-    printf("Edge with Vertex 0 and 1 added\n");
-    printf("Edge with Vertex 1 and 2 added\n");
+    printf("Add an edge with vertex 0 and vertex 1\n");
+    printf("Add an edge with vertex 1 and vertex 2\n");
     printAdjMatrix(graph);
+    printf("\n");
+    
+    // 간선 0-1 삭제 후, 인접 행렬 출력
     deleteEdge(graph, 0, 1);
-    printf("Edge with Vertex 0 and 1 removed\n");
+    printf("Remove an edge with vertex 0 and vertex 1\n");
     printAdjMatrix(graph);
+    printf("\n");
+    
+    // 정점 0 삭제 후, 인접 행렬 출력
     deleteVertex(graph, 0);
-    printf("Vertex 0 removed\n");
+    printf("Remove vertex 0\n");
     printAdjMatrix(graph);
+    printf("\n");
+    
     return 0;
 }
 

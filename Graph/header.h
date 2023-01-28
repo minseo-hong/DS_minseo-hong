@@ -3,7 +3,7 @@
 
 #define TRUE    1
 #define FALSE   0
-#define VERTEX_MAX_SIZE    10
+#define VERTEX_MAX_SIZE    50
 
 typedef struct Graph {
     int size;
